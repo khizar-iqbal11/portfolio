@@ -290,35 +290,89 @@
   .edu-item .school{ color:var(--text-color); font-weight:600; }
   .edu-item .years{ color:var(--accent-yellow); font-size:0.82rem; }
 
-  /* ---------- Contact ---------- */
-  .contact-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-    gap:14px;
+  /* ---------- Contact (Redesigned) ---------- */
+  .contact-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
-  .contact-item .label{
-    font-size:0.7rem;
-    text-transform:uppercase;
-    letter-spacing:0.1em;
-    color:var(--accent-pink);
-    display:block;
-    margin-bottom:4px;
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
   }
-  .contact-item a, .contact-item span.value{
-    color:deepskyblue;
-    font-size:0.92rem;
-    word-break:break-word;
+  .contact-card {
+    background: var(--box-bg-2);
+    border: 1px solid var(--card-line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
   }
-  .contact-item a:hover{ text-shadow:0 0 6px deepskyblue; }
-  .social-row{
-    margin-top:18px;
-    display:flex;
-    gap:14px;
+  .contact-card:hover {
+    border-color: var(--text-color);
+    transform: translateY(-2px);
   }
-  a.github{ color:#a64dff; }
-  a.linkedin{ color:#3399ff; }
-  .social-row a{ font-weight:700; text-decoration:none; font-size:0.9rem; }
-  .social-row a:hover{ text-shadow:0 0 6px currentColor; }
+  .contact-card .label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-pink);
+  }
+  .contact-card a, .contact-card span.value {
+    color: var(--text-color);
+    font-size: 0.9rem;
+    text-decoration: none;
+    word-break: break-word;
+    font-weight: 500;
+  }
+  .contact-card a:hover {
+    text-shadow: 0 0 8px var(--text-color);
+  }
+
+  .social-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .social-btn {
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+  }
+  .social-btn.github {
+    background: rgba(166, 77, 255, 0.12);
+    color: #c78aff;
+    border: 1px solid rgba(166, 77, 255, 0.4);
+  }
+  .social-btn.github:hover {
+    background: #a64dff;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(166, 77, 255, 0.6);
+  }
+  .social-btn.linkedin {
+    background: rgba(51, 153, 255, 0.12);
+    color: #66b3ff;
+    border: 1px solid rgba(51, 153, 255, 0.4);
+  }
+  .social-btn.linkedin:hover {
+    background: #3399ff;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(51, 153, 255, 0.6);
+  }
 
   footer{
     text-align:center;
@@ -526,30 +580,32 @@
     </div>
   </div>
 
-  <!-- Contact -->
+  <!-- Contact (Redesigned) -->
   <div class="section">
     <div class="section-head">
       <h2>[ Contact ]</h2>
       <div class="rule"></div>
     </div>
     <div class="panel">
-      <div class="contact-grid">
-        <div class="contact-item">
-          <span class="label">Email</span>
-          <a href="mailto:khizariqbal1101aa001@outlook.com">khizariqbal1101aa001@outlook.com</a>
+      <div class="contact-container">
+        <div class="contact-grid">
+          <div class="contact-card">
+            <span class="label">Email</span>
+            <a href="mailto:khizariqbal1101aa001@outlook.com">khizariqbal1101aa001@outlook.com</a>
+          </div>
+          <div class="contact-card">
+            <span class="label">Phone</span>
+            <a href="tel:+923477119066">+92 347 7119066</a>
+          </div>
+          <div class="contact-card">
+            <span class="label">Location</span>
+            <span class="value">Model Town, Lahore</span>
+          </div>
         </div>
-        <div class="contact-item">
-          <span class="label">Phone</span>
-          <a href="tel:+923477119066">+92 347 7119066</a>
+        <div class="social-row">
+          <a class="social-btn github" href="https://github.com/khizar-iqbal11" target="_blank">GitHub Profile →</a>
+          <a class="social-btn linkedin" href="https://www.linkedin.com/in/khizar-iqbal11/" target="_blank">LinkedIn Profile →</a>
         </div>
-        <div class="contact-item">
-          <span class="label">Location</span>
-          <span class="value">Model Town, Lahore</span>
-        </div>
-      </div>
-      <div class="social-row">
-        <a class="github" href="https://github.com/khizar-iqbal11" target="_blank">GitHub</a>
-        <a class="linkedin" href="https://www.linkedin.com/in/khizar-iqbal11/" target="_blank">LinkedIn</a>
       </div>
     </div>
   </div>
