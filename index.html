@@ -6,7 +6,7 @@
 <title>Khizar Iqbal | Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg-color:#1e0033;
@@ -16,8 +16,10 @@
     --box-bg-2:#230042;
     --accent-yellow:#ffcc00;
     --accent-pink:#ff66cc;
-    --border-soft: rgba(0,255,153,0.35);
-    --card-line: rgba(0,255,153,0.18);
+    --accent-orange:#ff8800;
+    --accent-orange-dark:#c65900;
+    --border-soft: rgba(0,255,153,0.30);
+    --dim: rgba(0,255,153,0.55);
   }
   body.light-mode{
     --bg-color:#f7f7f7;
@@ -27,434 +29,303 @@
     --box-bg-2:#f1f1f5;
     --accent-yellow:#b35900;
     --accent-pink:#cc0066;
-    --border-soft: rgba(0,0,0,0.15);
-    --card-line: rgba(0,0,0,0.1);
+    --accent-orange:#cc5200;
+    --accent-orange-dark:#a34400;
+    --border-soft: rgba(0,0,0,0.18);
+    --dim: rgba(0,0,0,0.55);
   }
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  /* native cursor hidden, custom faceted nav-arrow cursor (#retro-cursor) used instead */
+  body, a, button, .toggle-btn, .proj a{ cursor:none; }
+
+  #retro-cursor{
+    position:fixed;
+    top:0; left:0;
+    width:30px; height:28px;
+    margin:-2px 0 0 -5px;
+    pointer-events:none;
+    z-index:9999;
+    will-change:transform;
+    transition:transform 0s;
+  }
+  #retro-cursor svg{ width:100%; height:100%; display:block; }
+  #retro-cursor.down{ transform:scale(0.85); }
+  @media (hover:none){ #retro-cursor{ display:none; } }
 
   body{
     margin:0;
-    font-family:"JetBrains Mono", monospace;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:15px;
     color:var(--text-color);
-    background:
-      radial-gradient(circle at 15% 10%, rgba(255,102,204,0.10), transparent 40%),
-      radial-gradient(circle at 85% 0%, rgba(0,255,153,0.10), transparent 35%),
-      linear-gradient(180deg, var(--bg-color) 0%, var(--bg-color-2) 100%);
-    background-attachment:fixed;
-    line-height:1.65;
-    transition: background 0.4s ease, color 0.4s ease;
-    position:relative;
+    background:var(--bg-color);
+    line-height:1.7;
+    transition:background 0.3s ease, color 0.3s ease;
   }
 
-  /* scanline overlay, subtle */
-  body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    background:repeating-linear-gradient(
-      to bottom,
-      rgba(255,255,255,0.02) 0px,
-      rgba(255,255,255,0.02) 1px,
-      transparent 1px,
-      transparent 3px
-    );
-    z-index:1;
-    opacity:0.5;
+  ::selection{ background:var(--accent-orange); color:#000; }
+
+  a{ color:var(--accent-pink); text-decoration:none; }
+  a:hover, a:focus-visible{ color:var(--accent-orange); text-decoration:underline; }
+
+  :focus-visible{ outline:2px solid var(--accent-orange); outline-offset:2px; }
+
+  .term{
+    font-family:"Share Tech Mono", monospace;
   }
-  body.light-mode::before{ opacity:0; }
 
   .container{
-    max-width:920px;
-    margin:60px auto;
-    padding:0 20px;
-    position:relative;
-    z-index:2;
+    max-width:760px;
+    margin:0 auto;
+    padding:70px 20px 40px;
   }
 
-  ::selection{ background:var(--accent-pink); color:#1e0033; }
-
-  h1,h2,h3{
-    font-family:"Orbitron", "JetBrains Mono", monospace;
-    color:var(--text-color);
-    margin:0;
-  }
-
-  /* ---------- Hero ---------- */
-  .hero{
+  /* ---------- top bar ---------- */
+  .topbar{
     display:flex;
+    justify-content:space-between;
     align-items:center;
-    gap:28px;
-    background:linear-gradient(145deg, var(--box-bg), var(--box-bg-2));
+    font-size:0.78rem;
+    color:var(--dim);
+    border-bottom:1px solid var(--border-soft);
+    padding-bottom:10px;
+    margin-bottom:34px;
+  }
+  .topbar .path{ letter-spacing:0.02em; }
+  .toggle-btn{
+    background:none;
     border:1px solid var(--border-soft);
-    border-radius:14px;
-    padding:32px;
-    box-shadow:0 0 0 1px rgba(0,0,0,0.15), 0 25px 60px -25px rgba(0,0,0,0.6), 0 0 30px -10px var(--text-color);
-    position:relative;
-    overflow:hidden;
+    color:var(--text-color);
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.75rem;
+    padding:5px 10px;
+    letter-spacing:0.03em;
   }
-  .hero::after{
-    content:"";
-    position:absolute;
-    top:-40%; right:-20%;
-    width:280px; height:280px;
-    background:radial-gradient(circle, rgba(255,204,0,0.18), transparent 70%);
-    pointer-events:none;
+  .toggle-btn:hover{ border-color:var(--accent-orange); color:var(--accent-orange); }
+
+  /* ---------- hero / boot sequence ---------- */
+  .hero{ margin-bottom:50px; }
+  .boot-line{
+    font-family:"Share Tech Mono", monospace;
+    font-size:0.92rem;
+    color:var(--dim);
+    margin:0 0 2px;
   }
-
-  .profile-pic{
-    width:128px;
-    height:128px;
-    flex:0 0 auto;
-    border-radius:14px;
-    border:2px solid var(--text-color);
-    object-fit:cover;
-    box-shadow:0 0 22px -4px var(--text-color);
-  }
-
-  .hero-text{ min-width:0; }
-
-  .eyebrow{
-    display:inline-block;
-    font-size:0.72rem;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--accent-pink);
-    border:1px solid var(--accent-pink);
-    padding:3px 9px;
-    border-radius:999px;
-    margin-bottom:12px;
-  }
-
+  .boot-line .prompt{ color:var(--accent-orange); }
   h1{
-    font-size:2.1rem;
-    letter-spacing:0.02em;
-    text-shadow:0 0 18px var(--text-color);
-    line-height:1.15;
+    font-family:"Share Tech Mono", monospace;
+    font-weight:400;
+    font-size:2.4rem;
+    letter-spacing:0.01em;
+    margin:14px 0 6px;
+    color:var(--text-color);
   }
-
-  .cursor{
+  .cursor-blink{
     display:inline-block;
-    width:0.55ch;
-    background:var(--accent-yellow);
-    margin-left:2px;
+    width:0.5ch;
+    background:var(--accent-orange);
+    margin-left:3px;
     animation:blink 1s steps(1) infinite;
   }
   @keyframes blink{ 50%{ opacity:0; } }
+  @media (prefers-reduced-motion:reduce){ .cursor-blink{ animation:none; } }
 
   .role-line{
-    margin-top:10px;
-    font-size:0.98rem;
-    color:var(--accent-yellow);
+    font-size:0.95rem;
+    color:var(--text-color);
   }
-  .role-line .prompt{ color:var(--accent-pink); margin-right:6px; }
+  .role-line span.dim{ color:var(--dim); }
 
-  /* ---------- Section shell ---------- */
-  .section{
-    margin-top:44px;
+  .hero-photo{
+    margin-top:22px;
+    display:flex;
+    align-items:center;
+    gap:16px;
   }
+  .hero-photo img{
+    width:64px;
+    height:64px;
+    object-fit:cover;
+    border:1px solid var(--border-soft);
+    filter:grayscale(1) contrast(1.05);
+  }
+  .hero-photo .tag{
+    font-size:0.72rem;
+    color:var(--accent-orange);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+
+  /* ---------- sections ---------- */
+  .section{ margin-top:46px; }
   .section-head{
     display:flex;
-    align-items:baseline;
-    gap:12px;
-    margin-bottom:18px;
+    align-items:center;
+    gap:10px;
+    margin-bottom:16px;
   }
   .section-head h2{
-    font-size:1.2rem;
-    letter-spacing:0.05em;
+    font-family:"Share Tech Mono", monospace;
+    font-weight:400;
+    font-size:1rem;
+    letter-spacing:0.04em;
+    color:var(--text-color);
+    margin:0;
   }
-  .section-head .tag{
-    font-size:0.7rem;
-    color:var(--accent-pink);
-    letter-spacing:0.12em;
-  }
+  .section-head h2::before{ content:"["; color:var(--accent-orange); }
+  .section-head h2::after{ content:"]"; color:var(--accent-orange); }
   .section-head .rule{
     flex:1;
     height:1px;
-    background:linear-gradient(to right, var(--border-soft), transparent);
+    background:var(--border-soft);
   }
 
-  .panel{
-    background:var(--box-bg);
-    border:1px solid var(--card-line);
-    border-radius:12px;
-    padding:22px 24px;
+  /* ---------- about ---------- */
+  .about p{ margin:0; color:var(--text-color); opacity:0.92; }
+
+  /* ---------- skills ---------- */
+  .skills-line{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0 8px;
+    font-size:0.9rem;
+  }
+  .skills-line span{ white-space:nowrap; }
+  .skills-line span:not(:last-child)::after{
+    content:" /";
+    color:var(--dim);
+    margin-left:8px;
   }
 
-  /* ---------- Skills ---------- */
-  .skills{ display:flex; flex-wrap:wrap; gap:10px; }
-  .skills span{
-    font-size:0.82rem;
-    padding:7px 14px;
-    border:1px solid var(--text-color);
-    border-radius:999px;
-    background:rgba(0,255,153,0.06);
-    color:var(--text-color);
-    white-space:nowrap;
-  }
-  body.light-mode .skills span{ background:rgba(0,0,0,0.04); }
-
-  /* ---------- Timeline ---------- */
-  .timeline{
-    position:relative;
-    padding-left:26px;
-    border-left:2px solid var(--card-line);
-  }
-  .timeline-item{
-    position:relative;
-    padding-bottom:26px;
-  }
-  .timeline-item:last-child{ padding-bottom:0; }
-  .timeline-item::before{
-    content:"";
-    position:absolute;
-    left:-32px;
-    top:4px;
-    width:11px;
-    height:11px;
-    border-radius:50%;
-    background:var(--accent-yellow);
-    box-shadow:0 0 10px var(--accent-yellow);
-  }
-  .timeline-role{
-    font-size:1rem;
-    color:var(--text-color);
-    font-weight:600;
-  }
-  .timeline-org{ color:var(--accent-pink); }
-  .timeline-date{
-    display:inline-block;
-    font-size:0.75rem;
-    color:var(--accent-yellow);
-    margin:4px 0 8px;
-    letter-spacing:0.04em;
-  }
-  .timeline-item ul{
-    margin:0;
+  /* ---------- experience ---------- */
+  .job{
+    border-left:1px solid var(--border-soft);
     padding-left:18px;
-    font-size:0.92rem;
-    opacity:0.92;
+    margin-bottom:26px;
+    position:relative;
   }
-  .timeline-item li{ margin-bottom:3px; }
+  .job:last-child{ margin-bottom:0; }
+  .job::before{
+    content:"$";
+    position:absolute;
+    left:-8px;
+    top:0;
+    color:var(--accent-orange);
+    background:var(--bg-color);
+    font-family:"Share Tech Mono", monospace;
+    padding:0 2px;
+  }
+  .job-role{ font-weight:600; color:var(--text-color); }
+  .job-org{ color:var(--accent-pink); }
+  .job-date{
+    display:block;
+    font-size:0.75rem;
+    color:var(--dim);
+    margin:2px 0 8px;
+    font-family:"Share Tech Mono", monospace;
+  }
+  .job ul{ margin:0; padding-left:0; list-style:none; font-size:0.9rem; }
+  .job li{ margin-bottom:4px; }
+  .job li::before{ content:"- "; color:var(--dim); }
 
-  /* ---------- Projects ---------- */
-  .projects-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
-    gap:16px;
+  /* ---------- projects ---------- */
+  .proj-list{ display:flex; flex-direction:column; }
+  .proj{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:14px;
+    padding:10px 0;
+    border-bottom:1px dashed var(--border-soft);
+    font-size:0.9rem;
   }
-  .project-card{
-    background:var(--box-bg-2);
-    border:1px solid var(--card-line);
-    border-left:3px solid var(--accent-pink);
-    border-radius:10px;
-    padding:16px 18px;
-    transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  .proj:first-child{ border-top:1px dashed var(--border-soft); }
+  .proj .name{ color:var(--text-color); }
+  .proj a{ font-size:0.82rem; white-space:nowrap; }
+  .proj .note{
+    display:block;
+    font-size:0.75rem;
+    color:var(--accent-orange);
+    margin-top:2px;
   }
-  .project-card:hover{
-    transform:translateY(-3px);
-    border-left-color:var(--accent-yellow);
-    box-shadow:0 12px 26px -14px rgba(0,0,0,0.5), 0 0 18px -6px var(--text-color);
-  }
-  .project-card .name{
-    font-weight:700;
-    font-size:0.96rem;
-  }
-  .project-card a{
-    color:var(--accent-pink);
-    text-decoration:none;
-    font-size:0.85rem;
-    font-weight:700;
-  }
-  .project-card a:hover{ text-decoration:underline; text-shadow:0 0 6px currentColor; }
+  .proj-inner{ min-width:0; }
   .project-note{
-    margin-top:16px;
-    font-size:0.85rem;
-    opacity:0.85;
+    margin-top:14px;
+    font-size:0.82rem;
+    color:var(--dim);
   }
-  .highlight{ color:var(--accent-yellow); display:block; margin-top:6px; }
 
-  /* ---------- Education ---------- */
+  /* ---------- education ---------- */
   .edu-item{
     display:flex;
     justify-content:space-between;
     gap:14px;
     flex-wrap:wrap;
-    padding:10px 0;
-    border-bottom:1px dashed var(--card-line);
-    font-size:0.92rem;
+    padding:9px 0;
+    border-bottom:1px dashed var(--border-soft);
+    font-size:0.9rem;
   }
   .edu-item:last-child{ border-bottom:none; }
-  .edu-item .school{ color:var(--text-color); font-weight:600; }
-  .edu-item .years{ color:var(--accent-yellow); font-size:0.82rem; }
+  .edu-item .school{ color:var(--text-color); }
+  .edu-item .years{ color:var(--dim); font-size:0.78rem; font-family:"Share Tech Mono", monospace; }
 
-  /* ---------- Contact (Redesigned) ---------- */
-  .contact-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .contact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-  }
-  .contact-card {
-    background: var(--box-bg-2);
-    border: 1px solid var(--card-line);
-    border-radius: 8px;
-    padding: 14px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    transition: border-color 0.2s ease, transform 0.2s ease;
-  }
-  .contact-card:hover {
-    border-color: var(--text-color);
-    transform: translateY(-2px);
-  }
-  .contact-card .label {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent-pink);
-  }
-  .contact-card a, .contact-card span.value {
-    color: var(--text-color);
-    font-size: 0.9rem;
-    text-decoration: none;
-    word-break: break-word;
-    font-weight: 500;
-  }
-  .contact-card a:hover {
-    text-shadow: 0 0 8px var(--text-color);
-  }
-
-  .social-row {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    margin-top: 4px;
-  }
-  .social-btn {
-    flex: 1;
-    min-width: 140px;
-    text-align: center;
-    padding: 12px 18px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: all 0.25s ease;
-  }
-  .social-btn.github {
-    background: rgba(166, 77, 255, 0.12);
-    color: #c78aff;
-    border: 1px solid rgba(166, 77, 255, 0.4);
-  }
-  .social-btn.github:hover {
-    background: #a64dff;
-    color: #fff;
-    box-shadow: 0 0 15px rgba(166, 77, 255, 0.6);
-  }
-  .social-btn.linkedin {
-    background: rgba(51, 153, 255, 0.12);
-    color: #66b3ff;
-    border: 1px solid rgba(51, 153, 255, 0.4);
-  }
-  .social-btn.linkedin:hover {
-    background: #3399ff;
-    color: #fff;
-    box-shadow: 0 0 15px rgba(51, 153, 255, 0.6);
-  }
+  /* ---------- contact ---------- */
+  .contact-lines{ font-size:0.9rem; }
+  .contact-lines div{ margin-bottom:8px; display:flex; gap:10px; }
+  .contact-lines .k{ color:var(--dim); min-width:70px; }
+  .contact-lines .k::after{ content:":"; }
+  .social-row{ margin-top:20px; display:flex; gap:22px; font-size:0.85rem; }
+  .social-row a::before{ content:"> "; color:var(--accent-orange); }
 
   footer{
     text-align:center;
-    margin:50px 0 30px;
-    font-size:0.8rem;
-    color:var(--accent-yellow);
-    opacity:0.85;
+    margin:60px 0 20px;
+    font-size:0.75rem;
+    color:var(--dim);
+    font-family:"Share Tech Mono", monospace;
   }
 
-  /* ---------- Toggle ---------- */
-  .toggle-btn{
-    position:fixed;
-    top:18px;
-    right:18px;
-    z-index:1000;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    background:var(--box-bg);
-    color:var(--text-color);
-    border:1px solid var(--text-color);
-    border-radius:999px;
-    padding:8px 14px;
-    cursor:pointer;
-    font-family:"JetBrains Mono", monospace;
-    font-size:0.78rem;
-    transition:all 0.25s ease;
-  }
-  .toggle-btn:hover{
-    background:var(--accent-pink);
-    color:#fff;
-    border-color:var(--accent-pink);
-  }
-
-  @media (max-width:640px){
-    .hero{ flex-direction:column; text-align:center; padding:26px; }
-    .profile-pic{ width:96px; height:96px; }
-    h1{ font-size:1.6rem; }
-    .toggle-btn{ top:12px; right:12px; padding:6px 10px; font-size:0.72rem; }
-    .container{ margin:80px auto 40px; }
-    .edu-item{ flex-direction:column; gap:2px; }
+  @media (max-width:600px){
+    .container{ padding:80px 16px 30px; }
+    h1{ font-size:1.7rem; }
+    .proj{ flex-direction:column; align-items:flex-start; gap:2px; }
   }
 </style>
 </head>
 <body>
 
-<button class="toggle-btn" onclick="document.body.classList.toggle('light-mode')">🌓 Toggle Theme</button>
-
 <div class="container">
 
-  <!-- Hero -->
+  <div class="topbar">
+    <span class="path">guest@khizar:~$</span>
+    <button class="toggle-btn" id="themeToggle" onclick="document.body.classList.toggle('light-mode')">toggle --theme</button>
+  </div>
+
+  <!-- Hero / boot sequence -->
   <div class="hero">
-    <img src="image.jpg" alt="Khizar Iqbal" class="profile-pic">
-    <div class="hero-text">
-      <span class="eyebrow">Available for opportunities</span>
-      <h1>Khizar Iqbal<span class="cursor">&nbsp;</span></h1>
-      <p class="role-line"><span class="prompt">&gt;</span>Game Developer · Software Engineer · QA Analyst</p>
+    <p class="boot-line"><span class="prompt">&gt;</span> whoami</p>
+    <h1>Khizar Iqbal<span class="cursor-blink">&nbsp;</span></h1>
+    <p class="role-line">Game Developer <span class="dim">/</span> Software Engineer <span class="dim">/</span> QA Analyst</p>
+    <p class="boot-line" style="margin-top:10px;"><span class="prompt">&gt;</span> status <span class="dim">--available for opportunities</span></p>
+
+    <div class="hero-photo">
+      <img src="image.jpg" alt="Khizar Iqbal">
+      <span class="tag">Model Town, Lahore</span>
     </div>
   </div>
 
   <!-- About -->
-  <div class="section">
-    <div class="section-head">
-      <h2>[ About Me ]</h2>
-      <div class="rule"></div>
-    </div>
-    <div class="panel">
-      <p style="margin:0;">
-        Detail-oriented developer skilled in game development and quality assurance.
-        Experienced with Unity, environment design, and ad package integration (Applovin &amp; Solar SDK).
-        Passionate about building high-quality software and immersive gaming experiences.
-      </p>
-    </div>
+  <div class="section about">
+    <div class="section-head"><h2>about</h2><div class="rule"></div></div>
+    <p>Detail-oriented developer skilled in game development and quality assurance. Experienced with Unity, environment design, and ad package integration (Applovin &amp; Solar SDK). Passionate about building high-quality software and immersive gaming experiences.</p>
   </div>
 
   <!-- Skills -->
   <div class="section">
-    <div class="section-head">
-      <h2>[ Skills ]</h2>
-      <div class="rule"></div>
-    </div>
-    <div class="panel skills">
+    <div class="section-head"><h2>skills</h2><div class="rule"></div></div>
+    <div class="skills-line">
       <span>OOP</span><span>DSA</span><span>C#</span><span>Unity</span>
       <span>MySQL</span><span>Version Control</span><span>Android Native</span>
       <span>JavaScript</span><span>Spring Boot</span><span>QA (Selenium)</span>
@@ -463,100 +334,61 @@
 
   <!-- Experience -->
   <div class="section">
-    <div class="section-head">
-      <h2>[ Experience ]</h2>
-      <div class="rule"></div>
+    <div class="section-head"><h2>experience</h2><div class="rule"></div></div>
+
+    <div class="job">
+      <div class="job-role">Lab Instructor <span class="job-org">@ University of Central Punjab</span></div>
+      <span class="job-date">Nov 2025 — Now</span>
+      <ul>
+        <li>Instruct lab sessions and guide students through practical coursework</li>
+        <li>Assist students with technical concepts and hands-on exercises</li>
+      </ul>
     </div>
-    <div class="panel">
-      <div class="timeline">
 
-        <div class="timeline-item">
-          <div class="timeline-role">Lab Instructor <span class="timeline-org">@ University of Central Punjab</span></div>
-          <span class="timeline-date">Nov 2025 — Now</span>
-          <ul>
-            <li>Instruct lab sessions and guide students through practical coursework</li>
-            <li>Assist students with technical concepts and hands-on exercises</li>
-          </ul>
-        </div>
+    <div class="job">
+      <div class="job-role">Game Developer <span class="job-org">@ The Gaminators Group</span></div>
+      <span class="job-date">Mar 2025 — Sep 2025</span>
+      <ul>
+        <li>Integrated Applovin &amp; Solar Engine SDK</li>
+        <li>Designed levels and environments</li>
+        <li>Enhanced gameplay elements</li>
+      </ul>
+    </div>
 
-        <div class="timeline-item">
-          <div class="timeline-role">Game Developer <span class="timeline-org">@ The Gaminators Group</span></div>
-          <span class="timeline-date">Mar 2025 — Sep 2025</span>
-          <ul>
-            <li>Integrated Applovin &amp; Solar Engine SDK</li>
-            <li>Designed levels and environments</li>
-            <li>Enhanced gameplay elements</li>
-          </ul>
-        </div>
+    <div class="job">
+      <div class="job-role">Game Developer Intern <span class="job-org">@ The Gaminators Group</span></div>
+      <span class="job-date">Sep 2024 — Dec 2024</span>
+      <ul>
+        <li>Refined mechanics and features in Unity</li>
+        <li>Debugged and optimized code</li>
+        <li>Asset integration and improvements</li>
+      </ul>
+    </div>
 
-        <div class="timeline-item">
-          <div class="timeline-role">Game Developer Intern <span class="timeline-org">@ The Gaminators Group</span></div>
-          <span class="timeline-date">Sep 2024 — Dec 2024</span>
-          <ul>
-            <li>Refined mechanics and features in Unity</li>
-            <li>Debugged and optimized code</li>
-            <li>Asset integration and improvements</li>
-          </ul>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-role">QA Analyst <span class="timeline-org">@ OmniVerX Ink</span></div>
-          <span class="timeline-date">Mar 2023 — Apr 2023</span>
-          <ul>
-            <li>Built Selenium test scripts</li>
-            <li>Validated functionality &amp; performance</li>
-          </ul>
-        </div>
-
-      </div>
+    <div class="job">
+      <div class="job-role">QA Analyst <span class="job-org">@ OmniVerX Ink</span></div>
+      <span class="job-date">Mar 2023 — Apr 2023</span>
+      <ul>
+        <li>Built Selenium test scripts</li>
+        <li>Validated functionality &amp; performance</li>
+      </ul>
     </div>
   </div>
 
   <!-- Projects -->
   <div class="section">
-    <div class="section-head">
-      <h2>[ Projects ]</h2>
-      <div class="rule"></div>
-    </div>
+    <div class="section-head"><h2>projects</h2><div class="rule"></div></div>
 
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="name">Kung Fu Heros: Fighting Game</div>
-        <a href="https://play.google.com/store/apps/details?id=com.us.robot.fighting2019.ring.wrestling.games" target="_blank">Play Store →</a>
-      </div>
-      <div class="project-card">
-        <div class="name">Real Fighting Games: GYM Fight</div>
-        <a href="https://play.google.com/store/apps/details?id=com.real.gym.fighting.boxing.wrestling.game" target="_blank">Play Store →</a>
-      </div>
-      <div class="project-card">
-        <div class="name">Animals Transport Truck Games</div>
-        <a href="https://play.google.com/store/apps/details?id=com.monster.truck.ramp.stunts.racing.mega.ramp.drive" target="_blank">Play Store →</a>
-      </div>
-      <div class="project-card">
-        <div class="name">Offroad SUV Jeep Driving Games</div>
-        <a href="https://play.google.com/store/apps/details?id=com.offroad.suv.driving.adventure" target="_blank">Play Store →</a>
-      </div>
-      <div class="project-card">
-        <div class="name">Hungry Animal Crocodile Games</div>
-        <a href="https://play.google.com/store/apps/details?id=com.jetman.city.gangster2019" target="_blank">Play Store →</a>
-      </div>
-      <div class="project-card">
-        <div class="name">Army Vehicle Transport Games</div>
-        <a href="https://play.google.com/store/apps/details?id=com.us.army.humvee.jeep.car.transporter.parking.game" target="_blank">Play Store →</a>
-      </div>
-      <div class="project-card">
-        <div class="name">Police Car Transport Simulator</div>
-        <a href="https://play.google.com/store/apps/details?id=com.urban.bus.driving.bus.simulator" target="_blank">Play Store →</a>
-      </div>
-      <div class="project-card">
-        <div class="name">Gangster Game City Mafia Crime (Crushiz)</div>
-        <a href="https://play.google.com/store/apps/details?id=com.tiger.superhero.driving.game&hl=en&gl=PK" target="_blank">Play Store →</a>
-      </div>
-      <div class="project-card">
-        <div class="name">Antistress Toys Pop It Games</div>
-        <a href="https://play.google.com/store/apps/details?id=com.io.relaxing.antistress.game" target="_blank">Play Store →</a>
-        <span class="highlight">★ Major contribution in design performance and mechanics</span>
-      </div>
+    <div class="proj-list">
+      <div class="proj"><div class="proj-inner"><span class="name">Kung Fu Heros: Fighting Game</span></div><a href="https://play.google.com/store/apps/details?id=com.us.robot.fighting2019.ring.wrestling.games" target="_blank">play store &gt;</a></div>
+      <div class="proj"><div class="proj-inner"><span class="name">Real Fighting Games: GYM Fight</span></div><a href="https://play.google.com/store/apps/details?id=com.real.gym.fighting.boxing.wrestling.game" target="_blank">play store &gt;</a></div>
+      <div class="proj"><div class="proj-inner"><span class="name">Animals Transport Truck Games</span></div><a href="https://play.google.com/store/apps/details?id=com.monster.truck.ramp.stunts.racing.mega.ramp.drive" target="_blank">play store &gt;</a></div>
+      <div class="proj"><div class="proj-inner"><span class="name">Offroad SUV Jeep Driving Games</span></div><a href="https://play.google.com/store/apps/details?id=com.offroad.suv.driving.adventure" target="_blank">play store &gt;</a></div>
+      <div class="proj"><div class="proj-inner"><span class="name">Hungry Animal Crocodile Games</span></div><a href="https://play.google.com/store/apps/details?id=com.jetman.city.gangster2019" target="_blank">play store &gt;</a></div>
+      <div class="proj"><div class="proj-inner"><span class="name">Army Vehicle Transport Games</span></div><a href="https://play.google.com/store/apps/details?id=com.us.army.humvee.jeep.car.transporter.parking.game" target="_blank">play store &gt;</a></div>
+      <div class="proj"><div class="proj-inner"><span class="name">Police Car Transport Simulator</span></div><a href="https://play.google.com/store/apps/details?id=com.urban.bus.driving.bus.simulator" target="_blank">play store &gt;</a></div>
+      <div class="proj"><div class="proj-inner"><span class="name">Gangster Game City Mafia Crime (Crushiz)</span></div><a href="https://play.google.com/store/apps/details?id=com.tiger.superhero.driving.game&hl=en&gl=PK" target="_blank">play store &gt;</a></div>
+      <div class="proj"><div class="proj-inner"><span class="name">Antistress Toys Pop It Games</span><span class="note">major contribution — design, performance &amp; mechanics</span></div><a href="https://play.google.com/store/apps/details?id=com.io.relaxing.antistress.game" target="_blank">play store &gt;</a></div>
     </div>
 
     <p class="project-note">These games include implementations of Applovin and Solar SDKs for ads and monetization, contributed as a team member at Gaminators.</p>
@@ -564,54 +396,44 @@
 
   <!-- Education -->
   <div class="section">
-    <div class="section-head">
-      <h2>[ Education ]</h2>
-      <div class="rule"></div>
-    </div>
-    <div class="panel">
-      <div class="edu-item">
-        <span class="school">MS-CY — FAST-NUCES University, Lahore</span>
-        <span class="years">2025 — 2027</span>
-      </div>
-      <div class="edu-item">
-        <span class="school">BS-CS — University of Central Punjab</span>
-        <span class="years">2021 — 2025</span>
-      </div>
-    </div>
+    <div class="section-head"><h2>education</h2><div class="rule"></div></div>
+    <div class="edu-item"><span class="school">MS-CY — FAST-NUCES University, Lahore</span><span class="years">2025 — 2027</span></div>
+    <div class="edu-item"><span class="school">BS-CS — University of Central Punjab</span><span class="years">2021 — 2025</span></div>
   </div>
 
-  <!-- Contact (Redesigned) -->
+  <!-- Contact -->
   <div class="section">
-    <div class="section-head">
-      <h2>[ Contact ]</h2>
-      <div class="rule"></div>
+    <div class="section-head"><h2>contact</h2><div class="rule"></div></div>
+    <div class="contact-lines">
+      <div><span class="k">email</span><a href="mailto:khizariqbal1101aa001@outlook.com">khizariqbal1101aa001@outlook.com</a></div>
+      <div><span class="k">phone</span><a href="tel:+923477119066">+92 347 7119066</a></div>
+      <div><span class="k">location</span><span>Model Town, Lahore</span></div>
     </div>
-    <div class="panel">
-      <div class="contact-container">
-        <div class="contact-grid">
-          <div class="contact-card">
-            <span class="label">Email</span>
-            <a href="mailto:khizariqbal1101aa001@outlook.com">khizariqbal1101aa001@outlook.com</a>
-          </div>
-          <div class="contact-card">
-            <span class="label">Phone</span>
-            <a href="tel:+923477119066">+92 347 7119066</a>
-          </div>
-          <div class="contact-card">
-            <span class="label">Location</span>
-            <span class="value">Model Town, Lahore</span>
-          </div>
-        </div>
-        <div class="social-row">
-          <a class="social-btn github" href="https://github.com/khizar-iqbal11" target="_blank">GitHub Profile →</a>
-          <a class="social-btn linkedin" href="https://www.linkedin.com/in/khizar-iqbal11/" target="_blank">LinkedIn Profile →</a>
-        </div>
-      </div>
+    <div class="social-row">
+      <a href="https://github.com/khizar-iqbal11" target="_blank">github</a>
+      <a href="https://www.linkedin.com/in/khizar-iqbal11/" target="_blank">linkedin</a>
     </div>
   </div>
 
-  <footer>[ © Khizar Iqbal ]</footer>
+  <footer>-- end of file // © khizar iqbal --</footer>
 </div>
+
+<div id="retro-cursor">
+  <svg viewBox="0 0 360 340" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="65,10 65,290 150,255" fill="var(--accent-orange-dark)"/>
+    <polygon points="65,10 150,255 330,255" fill="var(--accent-orange)"/>
+  </svg>
+</div>
+<script>
+  // Smooth lag-trailing ring cursor: real mouse pos tracked instantly,
+  // visible ring eases toward it each frame (lerp), classic creative-site feel.
+  var cur = document.getElementById('retro-cursor');
+  window.addEventListener('mousemove', function(e){
+    cur.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)';
+  });
+  window.addEventListener('mousedown', function(){ cur.classList.add('down'); });
+  window.addEventListener('mouseup', function(){ cur.classList.remove('down'); });
+</script>
 
 </body>
 </html>
