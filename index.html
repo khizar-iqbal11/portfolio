@@ -27,12 +27,12 @@
     --text-color:#1c1c1c;
     --box-bg:#ffffff;
     --box-bg-2:#f1f1f5;
-    --accent-yellow:#b35900;
-    --accent-pink:#cc0066;
-    --accent-orange:#cc5200;
-    --accent-orange-dark:#a34400;
-    --border-soft: rgba(0,0,0,0.18);
-    --dim: rgba(0,0,0,0.55);
+    --accent-yellow:#a34d00;
+    --accent-pink:#b3005c;
+    --accent-orange:#b34700;
+    --accent-orange-dark:#8f3900;
+    --border-soft: rgba(0,0,0,0.22);
+    --dim: rgba(0,0,0,0.72);
   }
 
   *{ box-sizing:border-box; }
@@ -490,8 +490,9 @@
   window.addEventListener('mouseup', function(){ cur.classList.remove('down'); });
 
   // ---- Session clock: elapsed time since deploy, till visitor opened page ----
-  // Set this to the actual deploy date/time (UTC) whenever site goes live/updates.
-  var DEPLOY_TIME = new Date('2026-01-01T00:00:00Z');
+  // Honest deploy time: browser's own record of file's last-modified timestamp.
+  // No hardcoded/fake date — updates automatically whenever file is re-uploaded/edited.
+  var DEPLOY_TIME = new Date(document.lastModified);
 
   function pad(n){ return n < 10 ? '0' + n : n; }
 
