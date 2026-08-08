@@ -38,20 +38,19 @@
   *{ box-sizing:border-box; }
   html{ scroll-behavior:smooth; }
 
-  /* native cursor hidden, custom faceted nav-arrow cursor (#retro-cursor) used instead */
   body, a, button, .toggle-btn, .proj a{ cursor:none; }
 
   #retro-cursor{
     position:fixed;
     top:0; left:0;
-    width:30px; height:28px;
-    margin:-2px 0 0 -5px;
+    width:26px; height:26px;
+    margin:-2px 0 0 -3px;
     pointer-events:none;
     z-index:9999;
     will-change:transform;
     transition:transform 0s;
   }
-  #retro-cursor svg{ width:100%; height:100%; display:block; }
+  #retro-cursor svg{ width:100%; height:100%; display:block; overflow:visible; }
   #retro-cursor.down{ transform:scale(0.85); }
   @media (hover:none){ #retro-cursor{ display:none; } }
 
@@ -156,6 +155,32 @@
     color:var(--accent-orange);
     letter-spacing:0.08em;
     text-transform:uppercase;
+  }
+
+  /* ---------- session clock ---------- */
+  .session-clock{
+    margin-top:22px;
+    border:1px solid var(--border-soft);
+    padding:12px 14px;
+    font-size:0.82rem;
+  }
+  .session-clock .sc-label{
+    color:var(--dim);
+    font-size:0.72rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .session-clock .sc-value{
+    font-family:"Share Tech Mono", monospace;
+    color:var(--accent-orange);
+    font-size:0.95rem;
+    letter-spacing:0.02em;
+  }
+  .session-clock .sc-sub{
+    color:var(--dim);
+    font-size:0.72rem;
+    margin-top:4px;
   }
 
   /* ---------- sections ---------- */
@@ -314,6 +339,13 @@
       <img src="image.jpg" alt="Khizar Iqbal">
       <span class="tag">Model Town, Lahore</span>
     </div>
+
+    <!-- Session clock: time since site deploy till visitor opened page -->
+    <div class="session-clock">
+      <div class="sc-label">&gt; uptime --since deploy</div>
+      <div class="sc-value" id="sessionClock">calculating…</div>
+      <div class="sc-sub" id="sessionClockSub"></div>
+    </div>
   </div>
 
   <!-- About -->
@@ -418,21 +450,80 @@
   <footer>-- end of file // © khizar iqbal --</footer>
 </div>
 
+<!-- AoE-style gem cursor: chunky beveled arrow, gold-orange facets, thick dark outline -->
 <div id="retro-cursor">
-  <svg viewBox="0 0 360 340" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="65,10 65,290 150,255" fill="var(--accent-orange-dark)"/>
-    <polygon points="65,10 150,255 330,255" fill="var(--accent-orange)"/>
+  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="aoeTop" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#ffe066"/>
+        <stop offset="100%" stop-color="#ff9d00"/>
+      </linearGradient>
+      <linearGradient id="aoeLeft" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#ff9d00"/>
+        <stop offset="100%" stop-color="#c65900"/>
+      </linearGradient>
+      <linearGradient id="aoeRight" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#ffb733"/>
+        <stop offset="100%" stop-color="#e07800"/>
+      </linearGradient>
+    </defs>
+    <!-- outline body -->
+    <polygon points="4,2 4,52 17,40 25,60 34,56 26,37 46,37" fill="#1a1200" stroke="#1a1200" stroke-width="7" stroke-linejoin="round"/>
+    <!-- main shaft facet (left/shadow) -->
+    <polygon points="4,2 4,52 17,40 4,2" fill="url(#aoeLeft)"/>
+    <!-- main shaft facet (top/light) -->
+    <polygon points="4,2 46,37 26,37 4,2" fill="url(#aoeTop)"/>
+    <!-- tail flag facet -->
+    <polygon points="17,40 25,60 34,56 26,37" fill="url(#aoeRight)"/>
+    <!-- inner bevel highlight line -->
+    <polyline points="6,6 6,46" stroke="#fff3c4" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
   </svg>
 </div>
+
 <script>
-  // Smooth lag-trailing ring cursor: real mouse pos tracked instantly,
-  // visible ring eases toward it each frame (lerp), classic creative-site feel.
+  // Smooth cursor tracking
   var cur = document.getElementById('retro-cursor');
   window.addEventListener('mousemove', function(e){
     cur.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)';
   });
   window.addEventListener('mousedown', function(){ cur.classList.add('down'); });
   window.addEventListener('mouseup', function(){ cur.classList.remove('down'); });
+
+  // ---- Session clock: elapsed time since deploy, till visitor opened page ----
+  // Set this to the actual deploy date/time (UTC) whenever site goes live/updates.
+  var DEPLOY_TIME = new Date('2026-01-01T00:00:00Z');
+
+  function pad(n){ return n < 10 ? '0' + n : n; }
+
+  function updateSessionClock(){
+    var now = new Date();
+    var diffMs = now - DEPLOY_TIME;
+    if (diffMs < 0) diffMs = 0;
+
+    var totalSeconds = Math.floor(diffMs / 1000);
+    var years = Math.floor(totalSeconds / (365*24*3600));
+    totalSeconds -= years * 365*24*3600;
+    var days = Math.floor(totalSeconds / (24*3600));
+    totalSeconds -= days * 24*3600;
+    var hours = Math.floor(totalSeconds / 3600);
+    totalSeconds -= hours * 3600;
+    var minutes = Math.floor(totalSeconds / 60);
+    var seconds = totalSeconds - minutes*60;
+
+    var parts = [];
+    if (years > 0) parts.push(years + 'y');
+    parts.push(days + 'd');
+    parts.push(pad(hours) + 'h');
+    parts.push(pad(minutes) + 'm');
+    parts.push(pad(seconds) + 's');
+
+    document.getElementById('sessionClock').textContent = parts.join(' ');
+    document.getElementById('sessionClockSub').textContent =
+      'deployed ' + DEPLOY_TIME.toUTCString() + ' — live for visitor now';
+  }
+
+  updateSessionClock();
+  setInterval(updateSessionClock, 1000);
 </script>
 
 </body>
